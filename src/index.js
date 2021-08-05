@@ -1,10 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
 
 const db = require("./utils/database");
-const Book = require("./resources/books/model");
-const Pet = require("./resources/pets/model");
 
 /* IMPORT ROUTERS */
 
@@ -16,7 +13,7 @@ const app = express();
 /* SETUP MIDDLEWARE */
 
 app.use(morgan("dev"));
-app.use(bodyParser.json());
+app.use(express.json());
 
 /* SETUP ROUTES */
 
@@ -37,9 +34,6 @@ app.listen(port, () => {
       console.error("[ERROR] Connection error: ", error.stack);
     } else {
       console.log("\n[DB] Connected...\n");
-
-      // Book();
-      Pet();
     }
   });
 

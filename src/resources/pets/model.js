@@ -36,8 +36,58 @@ function Pet() {
     });
   }
 
+  async function getOneByIdFromServer(id) {
+    const getOneById = `
+    SELECT *
+    FROM pets
+    WHERE id = $1;
+  `;
+
+    const result = db.query(getOneById, [id]).catch(console.error);
+    return result;
+  }
+
+  async function updateOneByIdToServer(idToUpdate, updatedBook) {
+    const { id, name, age, type, breed, microchip } = updatedBook;
+
+    const updateOneSql = `
+    UPDATE pets
+    SET id = $1,
+        name = $2,
+        age = $3,
+        type = $4,
+        breed = $5,
+        microchip = $6
+        WHERE id = $7
+    RETURNING *;
+    `;
+
+    const result = await db.query(updateOneSql, [
+      id,
+      name,
+      age,
+      type,
+      breed,
+      microchip,
+      idToUpdate,
+    ]);
+
+    return result.rows[0];
+  }
+
+  async function deleteOneByIdToServer(id) {
+    const deleteOne = `
+    DELETE FROM pets
+    WHERE id = $1;`;
+
+    const result = await db.query(deleteOne, [id]);
+    return result;
+  }
+
   createTable();
   mockData();
+
+  return { getOneByIdFromServer, updateOneByIdToServer, deleteOneByIdToServer };
 }
 
 module.exports = Pet;
