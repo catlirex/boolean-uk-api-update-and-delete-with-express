@@ -52,8 +52,7 @@ function Book() {
 
     const updateOneSql = `
     UPDATE books
-    SET id = $1,
-        title = $2,
+    SET title = $2,
         type = $3,
         author = $4,
         topic = $5,

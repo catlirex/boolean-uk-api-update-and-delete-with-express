@@ -52,24 +52,22 @@ function Pet() {
 
     const updateOneSql = `
     UPDATE pets
-    SET id = $1,
-        name = $2,
+    SET name = $2,
         age = $3,
         type = $4,
         breed = $5,
         microchip = $6
-        WHERE id = $7
+    WHERE id = $1
     RETURNING *;
     `;
 
     const result = await db.query(updateOneSql, [
-      id,
+      idToUpdate,
       name,
       age,
       type,
       breed,
       microchip,
-      idToUpdate,
     ]);
 
     return result.rows[0];
